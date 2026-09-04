@@ -400,6 +400,7 @@
             height: 200px;
             gap: 10px;
             padding: 20px 0;
+            min-height: 200px;
         }
 
         .chart-bar {
@@ -408,6 +409,8 @@
             border-radius: 4px 4px 0 0;
             position: relative;
             transition: height 0.3s ease;
+            width: 100%;
+            min-height: 20px;
         }
 
         .chart-bar.expense {
@@ -419,22 +422,20 @@
         }
 
         .chart-label {
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            transform: translateX(-50%);
             font-size: 11px;
             color: #64748b;
             white-space: nowrap;
+            margin-top: 5px;
+            text-align: center;
+            width: 100%;
         }
 
         .chart-value {
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
             font-size: 11px;
             font-weight: 500;
+            text-align: center;
+            width: 100%;
+            margin-top: 5px;
         }
 
         @media (max-width: 600px) {
@@ -467,7 +468,18 @@
             }
 
             .chart {
-                height: 150px;
+                height: 180px;
+                min-height: 180px;
+                overflow-x: auto;
+                padding-bottom: 40px;
+            }
+            
+            .chart > div {
+                min-width: 80px;
+            }
+            
+            .chart-bar {
+                min-height: 30px;
             }
         }
     </style>
@@ -1058,11 +1070,11 @@
                 const total = sums.income + sums.expense;
                 const height = (total / maxValue) * 100;
                 return `
-                    <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
-                        <div class="chart-bar ${sums.expense > sums.income ? 'expense' : 'income'}" 
-                             style="height: ${Math.max(height, 2)}%; min-height: 10px;">
-                        </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 60px;">
                         <div class="chart-value">${formatCurrency(total)} €</div>
+                        <div class="chart-bar ${sums.expense > sums.income ? 'expense' : 'income'}" 
+                             style="height: ${Math.max(height, 5)}%; width: 100%; min-height: 20px;">
+                        </div>
                         <div class="chart-label">${escapeHtml(category)}</div>
                     </div>
                 `;
