@@ -1045,7 +1045,14 @@
                 return;
             }
             
-            const maxValue = Math.max(...sorted.map(c => c[1].income + c[1].expense));
+            const totals = sorted.map(c => c[1].income + c[1].expense);
+            const maxValue = Math.max(...totals);
+            
+            // Handle case where maxValue is 0 or NaN
+            if (maxValue <= 0 || isNaN(maxValue)) {
+                chartEl.innerHTML = '<div class="empty-state">Aucune donnée à afficher</div>';
+                return;
+            }
             
             chartEl.innerHTML = sorted.map(([category, sums]) => {
                 const total = sums.income + sums.expense;
@@ -1053,7 +1060,7 @@
                 return `
                     <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
                         <div class="chart-bar ${sums.expense > sums.income ? 'expense' : 'income'}" 
-                             style="height: ${height}%; min-height: 10px;">
+                             style="height: ${Math.max(height, 2)}%; min-height: 10px;">
                         </div>
                         <div class="chart-value">${formatCurrency(total)} €</div>
                         <div class="chart-label">${escapeHtml(category)}</div>
@@ -1091,6 +1098,10 @@
 
         // ==================== START ====================
         init();
+        
+        // Expose functions globally for onclick handlers
+        window.openEditModal = openEditModal;
+        window.deleteTransaction = deleteTransaction;
     </script>
 </body>
 </html>
