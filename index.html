@@ -41,15 +41,32 @@
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: 
-                radial-gradient(circle at 20% 20%, rgba(0, 122, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(52, 199, 89, 0.06) 0%, transparent 50%),
-                linear-gradient(135deg, #F5F7FA 0%, #FFFFFF 30%, #F0F2F5 70%, #E8EBF0 100%);
+                /* Motif géométrique subtil pour le glassmorphisme */
+                linear-gradient(135deg, #F0F2F5 0%, #FFFFFF 50%, #E8EBF0 100%),
+                /* Grille très légère */
+                linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
             color: var(--dark);
             line-height: 1.5;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 122, 255, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(52, 199, 89, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
         }
 
         .container {
@@ -83,20 +100,21 @@
 
         /* Balance Card - Modern Glass Effect */
         .balance-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: var(--dark);
             padding: 36px 28px;
             border-radius: var(--radius-lg);
             margin-bottom: 32px;
             box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.08),
-                0 4px 12px rgba(0, 0, 0, 0.04);
+                0 8px 32px rgba(0, 0, 0, 0.06),
+                0 4px 12px rgba(0, 0, 0, 0.03);
             text-align: center;
             position: relative;
             overflow: hidden;
+            background-clip: padding-box;
         }
 
         .balance-card::before {
@@ -283,14 +301,15 @@
 
         /* Transactions Card */
         .transactions {
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--radius-md);
             overflow: hidden;
             box-shadow: var(--shadow-sm);
             margin-bottom: 24px;
+            background-clip: padding-box;
         }
 
         .transactions-header {
@@ -298,9 +317,10 @@
             justify-content: space-between;
             align-items: center;
             padding: 18px 24px;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .transactions-title {
@@ -431,14 +451,15 @@
 
         /* Pie Charts Container */
         .pie-charts-container {
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--radius-md);
             padding: 24px;
             margin-bottom: 32px;
             box-shadow: var(--shadow-sm);
+            background-clip: padding-box;
         }
 
         .pie-chart-wrapper {
@@ -541,18 +562,19 @@
         }
 
         .modal-content {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border-radius: var(--radius-lg);
             padding: 28px;
             width: 90%;
             max-width: 500px;
             box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.15),
-                0 10px 20px -5px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+                0 25px 50px -12px rgba(0, 0, 0, 0.1),
+                0 10px 20px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background-clip: padding-box;
         }
 
         @keyframes slideUp {
