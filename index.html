@@ -380,7 +380,7 @@
             resize: vertical;
         }
 
-        .chart-container {
+        .pie-charts-container {
             background: white;
             border-radius: 12px;
             box-shadow: var(--shadow);
@@ -388,55 +388,61 @@
             margin-bottom: 30px;
         }
 
-        .chart-title {
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--dark);
-        }
-
-        .chart {
+        .pie-chart-wrapper {
             display: flex;
-            align-items: flex-end;
-            height: 200px;
-            gap: 10px;
-            padding: 20px 0;
-            min-height: 200px;
-            position: relative;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
         }
 
-        .chart-bar {
+        .pie-chart {
             flex: 1;
-            background-color: var(--primary);
-            border-radius: 4px 4px 0 0;
-            position: relative;
-            transition: height 0.3s ease;
-            width: 100%;
-            min-height: 20px;
-        }
-
-        .chart-bar.expense {
-            background-color: var(--danger);
-        }
-
-        .chart-bar.income {
-            background-color: var(--success);
-        }
-
-        .chart-label {
-            font-size: 11px;
-            color: #64748b;
-            white-space: nowrap;
-            margin-top: 5px;
+            min-width: 250px;
+            max-width: 400px;
             text-align: center;
-            width: 100%;
         }
 
-        .chart-value {
-            font-size: 11px;
-            font-weight: 500;
-            text-align: center;
+        .pie-chart h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .pie-svg-container {
             width: 100%;
-            margin-top: 5px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .pie-svg-container svg {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .pie-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin: 2px 0;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            display: inline-block;
         }
 
         @media (max-width: 600px) {
@@ -475,12 +481,12 @@
                 padding-bottom: 40px;
             }
             
-            .chart > div {
-                min-width: 80px;
+            .pie-chart {
+                min-width: 100%;
             }
             
-            .chart-bar {
-                min-height: 30px;
+            .pie-svg-container {
+                height: 150px;
             }
         }
     </style>
@@ -508,10 +514,24 @@
             </div>
         </div>
 
-        <!-- Chart -->
-        <div class="chart-container">
-            <div class="chart-title">Répartition par catégorie</div>
-            <div class="chart" id="chart"></div>
+        <!-- Pie Charts -->
+        <div class="pie-charts-container">
+            <div class="pie-chart-wrapper">
+                <div class="pie-chart">
+                    <h3>Répartition des Dépenses</h3>
+                    <div class="pie-svg-container">
+                        <svg viewBox="0 0 100 100" id="expense-pie"></svg>
+                    </div>
+                    <div class="pie-legend" id="expense-legend"></div>
+                </div>
+                <div class="pie-chart">
+                    <h3>Répartition des Revenus</h3>
+                    <div class="pie-svg-container">
+                        <svg viewBox="0 0 100 100" id="income-pie"></svg>
+                    </div>
+                    <div class="pie-legend" id="income-legend"></div>
+                </div>
+            </div>
         </div>
 
         <!-- Add Transaction Form -->
@@ -964,7 +984,7 @@
         function renderAll() {
             renderTransactionList();
             renderSummary();
-            renderChart();
+            renderPieCharts();
             populateCategoryFilter();
         }
 
@@ -1031,62 +1051,80 @@
             }
         }
 
-        function renderChart() {
-            // Group by category - use absolute values for display
-            const categorySums = {};
+        function renderPieCharts() {
+            // Group by category for expenses and incomes separately
+            const expenseByCategory = {};
+            const incomeByCategory = {};
+            
             transactions.forEach(t => {
-                if (!categorySums[t.category]) {
-                    categorySums[t.category] = { income: 0, expense: 0 };
-                }
-                if (t.type === 'income') {
-                    categorySums[t.category].income += t.amount;
+                if (t.type === 'expense') {
+                    expenseByCategory[t.category] = (expenseByCategory[t.category] || 0) + t.amount;
                 } else {
-                    categorySums[t.category].expense += t.amount;
+                    incomeByCategory[t.category] = (incomeByCategory[t.category] || 0) + t.amount;
                 }
             });
             
-            // Calculate absolute values for each category (only positive amounts)
-            const categoriesWithData = Object.entries(categorySums).map(([category, sums]) => {
-                const total = sums.income + sums.expense; // Absolute sum for height
-                return { category, total, income: sums.income, expense: sums.expense };
-            });
+            renderPieChart('expense-pie', 'expense-legend', expenseByCategory, 'Dépenses');
+            renderPieChart('income-pie', 'income-legend', incomeByCategory, 'Revenus');
+        }
+        
+        function renderPieChart(svgId, legendId, data, type) {
+            const svg = document.getElementById(svgId);
+            const legend = document.getElementById(legendId);
             
-            // Get top 5 categories by absolute total
-            const sorted = categoriesWithData.sort((a, b) => b.total - a.total).slice(0, 5);
+            if (!svg || !legend) return;
             
-            if (sorted.length === 0) {
-                chartEl.innerHTML = '<div class="empty-state">Aucune donnée à afficher</div>';
+            const entries = Object.entries(data);
+            
+            if (entries.length === 0) {
+                svg.innerHTML = '<text x="50" y="50" text-anchor="middle" dominant-baseline="middle" font-size="14" fill="#64748b">Aucune donnée</text>';
+                legend.innerHTML = '<div class="empty-state">Aucune donnée à afficher</div>';
                 return;
             }
             
-            const maxTotal = Math.max(...sorted.map(c => c.total));
+            const total = entries.reduce((sum, [_, amount]) => sum + amount, 0);
             
-            // Handle case where maxTotal is 0 or NaN
-            if (maxTotal <= 0 || isNaN(maxTotal)) {
-                chartEl.innerHTML = '<div class="empty-state">Aucune donnée à afficher</div>';
-                return;
-            }
+            // Generate colors
+            const colors = [
+                '#ef4444', '#f87171', '#fca5a5', '#fee2e2', // Reds
+                '#10b981', '#34d399', '#6ee7b7', '#a7f3d0', // Greens
+                '#4f46e5', '#6366f1', '#818cf8', '#c7d2fe', // Blues
+                '#f59e0b', '#fbbf24', '#fcd34d', '#fef3c7'  // Oranges
+            ];
             
-            // Use fixed pixel height for chart (200px or 180px on mobile)
-            const chartHeight = window.innerWidth <= 600 ? 180 : 200;
+            let currentAngle = 0;
+            let svgContent = '';
+            let legendContent = '';
             
-            chartEl.innerHTML = sorted.map(({category, total, income, expense}) => {
-                // Height based on absolute total (income + expense)
-                const height = (total / maxTotal) * chartHeight;
-                const barClass = expense > income ? 'expense' : 'income';
-                const displayValue = total; // Show absolute total
-                return `
-                    <div style="display: flex; flex-direction: column; align-items: center; width: 100%; min-width: 60px; height: 100%;">
-                        <div class="chart-value">${formatCurrency(displayValue)} €</div>
-                        <div style="flex: 1; width: 100%; display: flex; align-items: flex-end;">
-                            <div class="chart-bar ${barClass}" 
-                                 style="width: 100%; height: ${Math.max(height, 5)}px; min-height: 5px;">
-                            </div>
-                        </div>
-                        <div class="chart-label">${escapeHtml(category)}</div>
+            entries.forEach(([category, amount], index) => {
+                const percentage = (amount / total) * 100;
+                const angle = (amount / total) * 360;
+                const color = colors[index % colors.length];
+                const largeArcFlag = angle > 180 ? 1 : 0;
+                
+                const x1 = 50 + 40 * Math.cos(currentAngle * Math.PI / 180);
+                const y1 = 50 + 40 * Math.sin(currentAngle * Math.PI / 180);
+                const x2 = 50 + 40 * Math.cos((currentAngle + angle) * Math.PI / 180);
+                const y2 = 50 + 40 * Math.sin((currentAngle + angle) * Math.PI / 180);
+                
+                svgContent += `
+                    <path d="M 50 50 L ${x1} ${y1} A 40 40 0 ${largeArcFlag} 1 ${x2} ${y2} Z"
+                          fill="${color}" stroke="white" stroke-width="1"
+                          data-category="${escapeHtml(category)}" data-amount="${amount}" data-percentage="${percentage.toFixed(1)}"/>
+                `;
+                
+                legendContent += `
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: ${color};"></span>
+                        <span>${escapeHtml(category)}: ${formatCurrency(amount)} € (${percentage.toFixed(1)}%)</span>
                     </div>
                 `;
-            }).join('');
+                
+                currentAngle += angle;
+            });
+            
+            svg.innerHTML = svgContent;
+            legend.innerHTML = legendContent;
         }
 
         function populateCategoryFilter() {
