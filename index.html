@@ -1066,14 +1066,18 @@
                 return;
             }
             
+            // Use fixed pixel height for chart (200px or 180px on mobile)
+            const chartHeight = window.innerWidth <= 600 ? 180 : 200;
+            
             chartEl.innerHTML = sorted.map(([category, sums]) => {
                 const total = sums.income + sums.expense;
-                const height = (total / maxValue) * 100;
+                const height = (total / maxValue) * chartHeight;
+                const barClass = sums.expense > sums.income ? 'expense' : 'income';
                 return `
-                    <div style="display: flex; flex-direction: column; align-items: center; height: ${Math.max(height, 5)}%; min-height: 20px; width: 100%; min-width: 60px;">
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 100%; min-width: 60px;">
                         <div class="chart-value">${formatCurrency(total)} €</div>
-                        <div class="chart-bar ${sums.expense > sums.income ? 'expense' : 'income'}" 
-                             style="width: 100%; height: 100%;">
+                        <div class="chart-bar ${barClass}" 
+                             style="width: 100%; height: ${Math.max(height, 5)}px; min-height: 5px;">
                         </div>
                         <div class="chart-label">${escapeHtml(category)}</div>
                     </div>
