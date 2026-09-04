@@ -1031,7 +1031,7 @@
         }
 
         function renderChart() {
-            // Group by category
+            // Group by category - use absolute values for display
             const categorySums = {};
             transactions.forEach(t => {
                 if (!categorySums[t.category]) {
@@ -1044,24 +1044,25 @@
                 }
             });
             
-            // Get top 5 categories
-            const categoriesArray = Object.entries(categorySums);
-            const sorted = categoriesArray.sort((a, b) => {
-                const aTotal = a[1].income + a[1].expense;
-                const bTotal = b[1].income + b[1].expense;
-                return bTotal - aTotal;
-            }).slice(0, 5);
+            // Calculate net and absolute values for each category
+            const categoriesWithData = Object.entries(categorySums).map(([category, sums]) => {
+                const net = sums.income - sums.expense;
+                const total = sums.income + sums.expense; // Absolute sum for height
+                return { category, net, total, income: sums.income, expense: sums.expense };
+            });
+            
+            // Get top 5 categories by absolute total
+            const sorted = categoriesWithData.sort((a, b) => b.total - a.total).slice(0, 5);
             
             if (sorted.length === 0) {
                 chartEl.innerHTML = '<div class="empty-state">Aucune donnée à afficher</div>';
                 return;
             }
             
-            const totals = sorted.map(c => c[1].income + c[1].expense);
-            const maxValue = Math.max(...totals);
+            const maxTotal = Math.max(...sorted.map(c => c.total));
             
-            // Handle case where maxValue is 0 or NaN
-            if (maxValue <= 0 || isNaN(maxValue)) {
+            // Handle case where maxTotal is 0 or NaN
+            if (maxTotal <= 0 || isNaN(maxTotal)) {
                 chartEl.innerHTML = '<div class="empty-state">Aucune donnée à afficher</div>';
                 return;
             }
@@ -1069,13 +1070,14 @@
             // Use fixed pixel height for chart (200px or 180px on mobile)
             const chartHeight = window.innerWidth <= 600 ? 180 : 200;
             
-            chartEl.innerHTML = sorted.map(([category, sums]) => {
-                const total = sums.income + sums.expense;
-                const height = (total / maxValue) * chartHeight;
-                const barClass = sums.expense > sums.income ? 'expense' : 'income';
+            chartEl.innerHTML = sorted.map(({category, net, total, income, expense}) => {
+                // Height based on absolute total (income + expense)
+                const height = (total / maxTotal) * chartHeight;
+                const barClass = expense > income ? 'expense' : 'income';
+                const displayValue = net; // Show net value
                 return `
                     <div style="display: flex; flex-direction: column; align-items: center; width: 100%; min-width: 60px;">
-                        <div class="chart-value">${formatCurrency(total)} €</div>
+                        <div class="chart-value">${formatCurrency(displayValue)} €</div>
                         <div class="chart-bar ${barClass}" 
                              style="width: 100%; height: ${Math.max(height, 5)}px; min-height: 5px;">
                         </div>
