@@ -1044,11 +1044,10 @@
                 }
             });
             
-            // Calculate net and absolute values for each category
+            // Calculate absolute values for each category (only positive amounts)
             const categoriesWithData = Object.entries(categorySums).map(([category, sums]) => {
-                const net = sums.income - sums.expense;
                 const total = sums.income + sums.expense; // Absolute sum for height
-                return { category, net, total, income: sums.income, expense: sums.expense };
+                return { category, total, income: sums.income, expense: sums.expense };
             });
             
             // Get top 5 categories by absolute total
@@ -1070,11 +1069,11 @@
             // Use fixed pixel height for chart (200px or 180px on mobile)
             const chartHeight = window.innerWidth <= 600 ? 180 : 200;
             
-            chartEl.innerHTML = sorted.map(({category, net, total, income, expense}) => {
+            chartEl.innerHTML = sorted.map(({category, total, income, expense}) => {
                 // Height based on absolute total (income + expense)
                 const height = (total / maxTotal) * chartHeight;
                 const barClass = expense > income ? 'expense' : 'income';
-                const displayValue = net; // Show net value
+                const displayValue = total; // Show absolute total
                 return `
                     <div style="display: flex; flex-direction: column; align-items: center; width: 100%; min-width: 60px;">
                         <div class="chart-value">${formatCurrency(displayValue)} €</div>
