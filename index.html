@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion de Budget - Glass Design</title>
+    <title>Gestión de Presupuesto</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -214,20 +214,20 @@
 <body>
     <div class="container">
         <header>
-            <h1>Gestion de Budget</h1>
-            <p class="subtitle">Suivez vos revenus et dépenses en temps réel</p>
+            <h1>Gestión de Presupuesto</h1>
+            <p class="subtitle">Siga sus ingresos y gastos en tiempo real</p>
         </header>
 
         <div class="balance-card">
-            <div>Solde Actuel</div>
+            <div>Saldo Actual</div>
             <div class="balance-value" id="balance">0,00 €</div>
             <div class="stats">
                 <div class="stats-item">
-                    <div class="stats-label">Revenus</div>
+                    <div class="stats-label">Ingresos</div>
                     <div class="stats-value" id="total-income">0,00 €</div>
                 </div>
                 <div class="stats-item">
-                    <div class="stats-label">Dépenses</div>
+                    <div class="stats-label">Gastos</div>
                     <div class="stats-value" id="total-expense">0,00 €</div>
                 </div>
             </div>
@@ -236,12 +236,12 @@
         <div class="pie-charts-container">
             <div class="pie-chart-wrapper">
                 <div class="pie-chart">
-                    <h3>Répartition des Dépenses</h3>
+                    <h3>Distribución de Gastos</h3>
                     <div class="pie-svg-container"><svg viewBox="0 0 100 100" id="expense-pie"></svg></div>
                     <div class="pie-legend" id="expense-legend"></div>
                 </div>
                 <div class="pie-chart">
-                    <h3>Répartition des Revenus</h3>
+                    <h3>Distribución de Ingresos</h3>
                     <div class="pie-svg-container"><svg viewBox="0 0 100 100" id="income-pie"></svg></div>
                     <div class="pie-legend" id="income-legend"></div>
                 </div>
@@ -250,76 +250,76 @@
 
         <div class="transactions">
             <div class="transactions-header">
-                <div class="transactions-title">Ajouter une transaction</div>
+                <div class="transactions-title">Añadir una transacción</div>
             </div>
             <div style="padding: 24px;">
                 <form id="transaction-form">
                     <div class="form-row">
-                        <div class="form-col"><div class="form-group"><label for="name">Nom *</label><input type="text" id="name" name="name" placeholder="Ex: Courses, Salaire" required></div></div>
-                        <div class="form-col"><div class="form-group"><label for="amount">Montant (€) *</label><input type="number" id="amount" name="amount" step="0.01" placeholder="0,00" required></div></div>
+                        <div class="form-col"><div class="form-group"><label for="name">Nombre *</label><input type="text" id="name" name="name" placeholder="Ej: Compras, Salario" required></div></div>
+                        <div class="form-col"><div class="form-group"><label for="amount">Monto (€) *</label><input type="number" id="amount" name="amount" step="0.01" placeholder="0,00" required></div></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-col"><div class="form-group"><label for="category">Catégorie *</label><select id="category" name="category" required><option value="">-- Sélectionnez --</option><option value="Salaire">Salaire</option><option value="Courses">Courses</option><option value="Loisirs">Loisirs</option><option value="Logement">Logement</option><option value="Transport">Transport</option><option value="Énergie">Énergie</option><option value="Santé">Santé</option><option value="Autre">Autre</option></select></div></div>
-                        <div class="form-col"><div class="form-group"><label for="type">Type *</label><select id="type" name="type" required><option value="expense">Dépense</option><option value="income">Revenu</option></select></div></div>
+                        <div class="form-col"><div class="form-group"><label for="category">Categoría *</label><select id="category" name="category" required><option value="">-- Seleccione --</option><option value="Salario">Salario</option><option value="Compras">Compras</option><option value="Ocio">Ocio</option><option value="Vivienda">Vivienda</option><option value="Transporte">Transporte</option><option value="Energía">Energía</option><option value="Salud">Salud</option><option value="Otro">Otro</option></select></div></div>
+                        <div class="form-col"><div class="form-group"><label for="type">Tipo *</label><select id="type" name="type" required><option value="expense">Gasto</option><option value="income">Ingreso</option></select></div></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-col"><div class="form-group"><label for="date">Date</label><input type="date" id="date" name="date"></div></div>
-                        <div class="form-col"><div class="form-group"><label for="description">Description</label><input type="text" id="description" name="description" placeholder="Détails optionnels"></div></div>
+                        <div class="form-col"><div class="form-group"><label for="date">Fecha</label><input type="date" id="date" name="date"></div></div>
+                        <div class="form-col"><div class="form-group"><label for="description">Descripción</label><input type="text" id="description" name="description" placeholder="Detalles opcionales"></div></div>
                     </div>
                     <div class="actions">
-                        <button type="submit" class="success">Ajouter</button>
-                        <button type="reset" class="secondary">Réinitialiser</button>
+                        <button type="submit" class="success">Añadir</button>
+                        <button type="reset" class="secondary">Reiniciar</button>
                     </div>
                 </form>
             </div>
         </div>
 
         <div class="import-export">
-            <button id="export-btn" class="secondary">📥 Exporter (JSON)</button>
-            <button id="import-btn" class="secondary">📤 Importer (JSON)</button>
-            <button id="clear-btn" class="danger">🗑️ Tout supprimer</button>
+            <button id="export-btn" class="secondary">📥 Exportar (JSON)</button>
+            <button id="import-btn" class="secondary">📤 Importar (JSON)</button>
+            <button id="clear-btn" class="danger">🗑️ Borrar todo</button>
         </div>
 
         <div class="transactions">
             <div class="transactions-header">
-                <div class="transactions-title">Historique des transactions</div>
+                <div class="transactions-title">Histórico de transacciones</div>
                 <div class="filters">
-                    <select id="filter-type"><option value="all">Tous</option><option value="income">Revenus</option><option value="expense">Dépenses</option></select>
-                    <select id="filter-category"><option value="all">Toutes catégories</option></select>
+                    <select id="filter-type"><option value="all">Todos</option><option value="income">Ingresos</option><option value="expense">Gastos</option></select>
+                    <select id="filter-category"><option value="all">Todas categorías</option></select>
                 </div>
             </div>
-            <div class="transaction-list" id="transaction-list"><div class="empty-state">Aucune transaction enregistrée</div></div>
+            <div class="transaction-list" id="transaction-list"><div class="empty-state">No hay transacciones registradas</div></div>
         </div>
     </div>
 
     <div id="import-modal" class="modal">
         <div class="modal-content">
-            <div class="modal-header"><div class="modal-title">Importer des données</div><button class="modal-close" id="close-import">&times;</button></div>
-            <div class="modal-body"><p style="margin-bottom: 16px; color: rgba(255,255,255,0.7);">Collez votre fichier JSON exporté précédemment :</p><textarea id="import-data" placeholder='{"transactions": [...], "categories": [...]}'></textarea><p id="import-error" style="color: var(--danger); font-size: 13px; margin-top: 12px; display: none;"></p></div>
-            <div class="modal-footer"><button id="cancel-import" class="secondary">Annuler</button><button id="confirm-import" class="success">Importer</button></div>
+            <div class="modal-header"><div class="modal-title">Importar datos</div><button class="modal-close" id="close-import">&times;</button></div>
+            <div class="modal-body"><p style="margin-bottom: 16px; color: rgba(255,255,255,0.7);">Pegue su archivo JSON exportado previamente:</p><textarea id="import-data" placeholder='{"transactions": [...], "categories": [...]}'></textarea><p id="import-error" style="color: var(--danger); font-size: 13px; margin-top: 12px; display: none;"></p></div>
+            <div class="modal-footer"><button id="cancel-import" class="secondary">Cancelar</button><button id="confirm-import" class="success">Importar</button></div>
         </div>
     </div>
 
     <div id="edit-modal" class="modal">
         <div class="modal-content">
-            <div class="modal-header"><div class="modal-title">Modifier la transaction</div><button class="modal-close" id="close-edit">&times;</button></div>
+            <div class="modal-header"><div class="modal-title">Modificar transacción</div><button class="modal-close" id="close-edit">&times;</button></div>
             <div class="modal-body">
                 <form id="edit-form">
                     <input type="hidden" id="edit-id">
-                    <div class="form-group"><label for="edit-name">Nom *</label><input type="text" id="edit-name" required></div>
-                    <div class="form-group"><label for="edit-amount">Montant (€) *</label><input type="number" id="edit-amount" step="0.01" required></div>
-                    <div class="form-group"><label for="edit-category">Catégorie *</label><select id="edit-category" required><option value="Salaire">Salaire</option><option value="Courses">Courses</option><option value="Loisirs">Loisirs</option><option value="Logement">Logement</option><option value="Transport">Transport</option><option value="Énergie">Énergie</option><option value="Santé">Santé</option><option value="Autre">Autre</option></select></div>
-                    <div class="form-group"><label for="edit-type">Type *</label><select id="edit-type" required><option value="expense">Dépense</option><option value="income">Revenu</option></select></div>
-                    <div class="form-group"><label for="edit-date">Date</label><input type="date" id="edit-date"></div>
-                    <div class="form-group"><label for="edit-description">Description</label><input type="text" id="edit-description"></div>
+                    <div class="form-group"><label for="edit-name">Nombre *</label><input type="text" id="edit-name" required></div>
+                    <div class="form-group"><label for="edit-amount">Monto (€) *</label><input type="number" id="edit-amount" step="0.01" required></div>
+                    <div class="form-group"><label for="edit-category">Categoría *</label><select id="edit-category" required><option value="Salario">Salario</option><option value="Compras">Compras</option><option value="Ocio">Ocio</option><option value="Vivienda">Vivienda</option><option value="Transporte">Transporte</option><option value="Energía">Energía</option><option value="Salud">Salud</option><option value="Otro">Otro</option></select></div>
+                    <div class="form-group"><label for="edit-type">Tipo *</label><select id="edit-type" required><option value="expense">Gasto</option><option value="income">Ingreso</option></select></div>
+                    <div class="form-group"><label for="edit-date">Fecha</label><input type="date" id="edit-date"></div>
+                    <div class="form-group"><label for="edit-description">Descripción</label><input type="text" id="edit-description"></div>
                 </form>
             </div>
-            <div class="modal-footer"><button id="cancel-edit" class="secondary">Annuler</button><button id="confirm-edit" class="success">Enregistrer</button></div>
+            <div class="modal-footer"><button id="cancel-edit" class="secondary">Cancelar</button><button id="confirm-edit" class="success">Guardar</button></div>
         </div>
     </div>
 
     <script>
-        let transactions = []; let categories = ["Salaire", "Courses", "Loisirs", "Logement", "Transport", "Énergie", "Santé", "Autre"]; let editIndex = null;
+        let transactions = []; let categories = ["Salario", "Compras", "Ocio", "Vivienda", "Transporte", "Energía", "Salud", "Otro"]; let editIndex = null;
         const transactionForm = document.getElementById('transaction-form'); const transactionList = document.getElementById('transaction-list');
         const balanceEl = document.getElementById('balance'); const totalIncomeEl = document.getElementById('total-income'); const totalExpenseEl = document.getElementById('total-expense');
         const filterType = document.getElementById('filter-type'); const filterCategory = document.getElementById('filter-category');
@@ -330,7 +330,7 @@
         const closeEdit = document.getElementById('close-edit'); const cancelEdit = document.getElementById('cancel-edit'); const confirmEdit = document.getElementById('confirm-edit');
 
         function init() { loadFromStorage(); populateCategoryFilter(); setupEventListeners(); renderAll(); }
-        function loadFromStorage() { const saved = localStorage.getItem('budget-app'); if (saved) { try { const data = JSON.parse(saved); transactions = data.transactions || []; if (data.categories) categories = data.categories; } catch (e) { console.error('Erreur:', e); } } }
+        function loadFromStorage() { const saved = localStorage.getItem('budget-app'); if (saved) { try { const data = JSON.parse(saved); transactions = data.transactions || []; if (data.categories) categories = data.categories; } catch (e) { console.error('Error:', e); } } }
         function saveToStorage() { localStorage.setItem('budget-app', JSON.stringify({ transactions: transactions, categories: categories })); }
 
         function setupEventListeners() {
@@ -349,8 +349,8 @@
             e.preventDefault(); const name = document.getElementById('name').value.trim(); const amount = parseFloat(document.getElementById('amount').value);
             const category = document.getElementById('category').value; const type = document.getElementById('type').value;
             const date = document.getElementById('date').value || new Date().toISOString().split('T')[0]; const description = document.getElementById('description').value.trim();
-            if (!name || isNaN(amount) || !category) { alert('Veuillez remplir tous les champs obligatoires (*)'); return; }
-            if (amount <= 0) { alert('Le montant doit être supérieur à 0'); return; }
+            if (!name || isNaN(amount) || !category) { alert('Por favor complete todos los campos obligatorios (*)'); return; }
+            if (amount <= 0) { alert('El monto debe ser mayor que 0'); return; }
             if (!categories.includes(category)) { categories.push(category); populateCategoryFilter(); }
             transactions.push({ id: Date.now().toString(), name, amount, category, type, date, description }); saveToStorage(); renderAll(); transactionForm.reset();
         }
@@ -359,34 +359,34 @@
             e.preventDefault(); const id = document.getElementById('edit-id').value; const name = document.getElementById('edit-name').value.trim();
             const amount = parseFloat(document.getElementById('edit-amount').value); const category = document.getElementById('edit-category').value;
             const type = document.getElementById('edit-type').value; const date = document.getElementById('edit-date').value; const description = document.getElementById('edit-description').value.trim();
-            if (!name || isNaN(amount) || !category) { alert('Veuillez remplir tous les champs obligatoires (*)'); return; }
-            if (amount <= 0) { alert('Le montant doit être supérieur à 0'); return; }
+            if (!name || isNaN(amount) || !category) { alert('Por favor complete todos los campos obligatorios (*)'); return; }
+            if (amount <= 0) { alert('El monto debe ser mayor que 0'); return; }
             const index = transactions.findIndex(t => t.id === id); if (index !== -1) {
                 if (!categories.includes(category)) { categories.push(category); populateCategoryFilter(); }
                 transactions[index] = { ...transactions[index], name, amount, category, type, date, description }; saveToStorage(); renderAll(); editModal.classList.remove('active');
             }
         }
 
-        function deleteTransaction(id) { if (confirm('Êtes-vous sûr de vouloir supprimer cette transaction ?')) { transactions = transactions.filter(t => t.id !== id); saveToStorage(); renderAll(); } }
+        function deleteTransaction(id) { if (confirm('¿Está seguro de que quiere eliminar esta transacción?')) { transactions = transactions.filter(t => t.id !== id); saveToStorage(); renderAll(); } }
         function openEditModal(id) { const transaction = transactions.find(t => t.id === id); if (!transaction) return; document.getElementById('edit-id').value = transaction.id; document.getElementById('edit-name').value = transaction.name; document.getElementById('edit-amount').value = transaction.amount; document.getElementById('edit-category').value = transaction.category; document.getElementById('edit-type').value = transaction.type; document.getElementById('edit-date').value = transaction.date; document.getElementById('edit-description').value = transaction.description || ''; editModal.classList.add('active'); }
 
         function handleExport() { const data = { transactions: transactions, categories: categories, exportedAt: new Date().toISOString() }; const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `budget-export-${new Date().toISOString().split('T')[0]}.json`; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); }
 
         function handleImport() {
-            try { const data = JSON.parse(importData.value); if (!data.transactions) throw new Error('Fichier JSON invalide : transactions manquantes');
+            try { const data = JSON.parse(importData.value); if (!data.transactions) throw new Error('Archivo JSON inválido: faltan transacciones');
                 if (data.categories) categories = [...new Set([...categories, ...data.categories])]; transactions = data.transactions; saveToStorage(); populateCategoryFilter(); renderAll();
-                importModal.classList.remove('active'); importData.value = ''; importError.style.display = 'none'; alert('Données importées avec succès !');
-            } catch (e) { importError.textContent = `Erreur : ${e.message}`; importError.style.display = 'block'; }
+                importModal.classList.remove('active'); importData.value = ''; importError.style.display = 'none'; alert('¡Datos importados con éxito!');
+            } catch (e) { importError.textContent = `Error: ${e.message}`; importError.style.display = 'block'; }
         }
 
-        function handleClear() { if (confirm('Êtes-vous sûr de vouloir supprimer TOUTES les transactions ? Cette action est irréversible.')) { transactions = []; saveToStorage(); renderAll(); } }
+        function handleClear() { if (confirm('¿Está seguro de que quiere eliminar TODAS las transacciones? Esta acción es irreversible.')) { transactions = []; saveToStorage(); renderAll(); } }
 
         function renderAll() { renderTransactionList(); renderSummary(); renderPieCharts(); populateCategoryFilter(); }
 
         function renderTransactionList() {
             const typeFilter = filterType.value; const categoryFilter = filterCategory.value;
             const filtered = transactions.filter(t => (typeFilter === 'all' || t.type === typeFilter) && (categoryFilter === 'all' || t.category === categoryFilter));
-            if (filtered.length === 0) { transactionList.innerHTML = '<div class="empty-state">Aucune transaction trouvée</div>'; return; }
+            if (filtered.length === 0) { transactionList.innerHTML = '<div class="empty-state">No se encontraron transacciones</div>'; return; }
             filtered.sort((a, b) => new Date(b.date || b.id) - new Date(a.date || a.id));
             transactionList.innerHTML = filtered.map(transaction => `
                 <div class="transaction-item">
@@ -397,8 +397,8 @@
                     <div class="transaction-date">${formatDate(transaction.date)}</div>
                     <div class="transaction-amount amount-${transaction.type}">${formatCurrency(transaction.amount)} €</div>
                     <div class="transaction-actions">
-                        <button onclick="openEditModal('${transaction.id}')" class="secondary" title="Modifier">✏️</button>
-                        <button onclick="deleteTransaction('${transaction.id}')" class="danger" title="Supprimer">🗑️</button>
+                        <button onclick="openEditModal('${transaction.id}')" class="secondary" title="Modificar">✏️</button>
+                        <button onclick="deleteTransaction('${transaction.id}')" class="danger" title="Eliminar">🗑️</button>
                     </div>
                 </div>
             `).join('');
@@ -415,12 +415,12 @@
         function renderPieCharts() {
             const expenseByCategory = {}; const incomeByCategory = {};
             transactions.forEach(t => { if (t.type === 'expense') expenseByCategory[t.category] = (expenseByCategory[t.category] || 0) + t.amount; else incomeByCategory[t.category] = (incomeByCategory[t.category] || 0) + t.amount; });
-            renderPieChart('expense-pie', 'expense-legend', expenseByCategory, 'Dépenses'); renderPieChart('income-pie', 'income-legend', incomeByCategory, 'Revenus');
+            renderPieChart('expense-pie', 'expense-legend', expenseByCategory, 'Gastos'); renderPieChart('income-pie', 'income-legend', incomeByCategory, 'Ingresos');
         }
 
         function renderPieChart(svgId, legendId, data, type) {
             const svg = document.getElementById(svgId); const legend = document.getElementById(legendId); if (!svg || !legend) return;
-            const entries = Object.entries(data); if (entries.length === 0) { svg.innerHTML = '<text x="50" y="50" text-anchor="middle" dominant-baseline="middle" font-size="14" fill="rgba(255,255,255,0.7)" font-family="Inter">Aucune donnée</text>'; legend.innerHTML = '<div class="empty-state">Aucune donnée à afficher</div>'; return; }
+            const entries = Object.entries(data); if (entries.length === 0) { svg.innerHTML = '<text x="50" y="50" text-anchor="middle" dominant-baseline="middle" font-size="14" fill="rgba(255,255,255,0.7)" font-family="Inter">Sin datos</text>'; legend.innerHTML = '<div class="empty-state">No hay datos para mostrar</div>'; return; }
             const total = entries.reduce((sum, [_, amount]) => sum + amount, 0); const colors = ['#FF3B30', '#FF6B60', '#FFA726', '#FFC700', '#FF9500', '#34C759', '#4CD964', '#6EE7B7', '#A7F3D0', '#007AFF', '#5856D6', '#818CF8', '#C7D2FE'];
             let currentAngle = 0; let svgContent = ''; let legendContent = '';
             entries.forEach(([category, amount], index) => {
@@ -432,9 +432,9 @@
             }); svg.innerHTML = svgContent; legend.innerHTML = legendContent;
         }
 
-        function populateCategoryFilter() { filterCategory.innerHTML = '<option value="all">Toutes catégories</option>' + categories.map(cat => `<option value="${cat}">${escapeHtml(cat)}</option>`).join(''); }
+        function populateCategoryFilter() { filterCategory.innerHTML = '<option value="all">Todas categorías</option>' + categories.map(cat => `<option value="${cat}">${escapeHtml(cat)}</option>`).join(''); }
         function formatCurrency(amount) { return amount.toFixed(2).replace('.', ','); }
-        function formatDate(dateString) { if (!dateString) return 'N/A'; const date = new Date(dateString); return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }); }
+        function formatDate(dateString) { if (!dateString) return 'N/A'; const date = new Date(dateString); return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }); }
         function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
         init(); window.openEditModal = openEditModal; window.deleteTransaction = deleteTransaction;
     </script>
