@@ -1070,10 +1070,10 @@
                 const total = sums.income + sums.expense;
                 const height = (total / maxValue) * 100;
                 return `
-                    <div style="display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 60px;">
+                    <div style="display: flex; flex-direction: column; align-items: center; height: ${Math.max(height, 5)}%; min-height: 20px; width: 100%; min-width: 60px;">
                         <div class="chart-value">${formatCurrency(total)} €</div>
                         <div class="chart-bar ${sums.expense > sums.income ? 'expense' : 'income'}" 
-                             style="height: ${Math.max(height, 5)}%; width: 100%; min-height: 20px;">
+                             style="width: 100%; height: 100%;">
                         </div>
                         <div class="chart-label">${escapeHtml(category)}</div>
                     </div>
